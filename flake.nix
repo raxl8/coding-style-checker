@@ -43,20 +43,20 @@
               fi
 
               echo "Running norm in $project_dir"
-              report=$(find "$project_dir"    \
-                -type f                       \
-                -not -path "*/.git/*"         \
-                -not -path "*/.idea/*"        \
-                -not -path "*/.vscode/*"      \
-                -not -path "bonus/*"          \
-                -not -path "tests/*"          \
-                -not -path "/*build/*"        \
-                | ${packages.vera}/bin/vera++ \
-                --profile epitech             \
-                --root ${ruleset}/vera        \
-                --error                       \
-                2>&1                          \
-                | sed "s|$project_dir/||"
+              report=$(find "$project_dir" \(   \
+                -path "*/.git" -o               \
+                -path "*/.idea" -o              \
+                -path "*/.vscode" -o            \
+                -path "$project_dir/bonus/*" -o \
+                -path "$project_dir/tests" -o   \
+                -path "/*build/*"               \
+                \) -prune -o -type f -print     \
+                | ${packages.vera}/bin/vera++   \
+                --profile epitech               \
+                --root ${ruleset}/vera          \
+                --error                         \
+                2>&1                            \
+                | sed "s|$project_dir/|./|"
               )
               count=$(echo "$report" | wc -l)
               echo "$report"
