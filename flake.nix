@@ -43,7 +43,7 @@
               fi
 
               echo "Running norm in $project_dir"
-              report=$(find "$project_dir"     \
+              report=$(find "$project_dir"    \
                 -type f                       \
                 -not -path "*/.git/*"         \
                 -not -path "*/.idea/*"        \
@@ -56,8 +56,7 @@
                 --root ${ruleset}/vera        \
                 --error                       \
                 2>&1                          \
-                | sed "s|$project_dir/||"     \
-                | tee /dev/stdout
+                | sed "s|$project_dir/||"
               )
               count=$(echo "$report" | wc -l)
               echo "$report"
