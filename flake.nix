@@ -43,7 +43,7 @@
               fi
 
               echo "Running norm in $project_dir"
-              count=$(find "$project_dir"     \
+              report=$(find "$project_dir"     \
                 -type f                       \
                 -not -path "*/.git/*"         \
                 -not -path "*/.idea/*"        \
@@ -57,9 +57,10 @@
                 --error                       \
                 2>&1                          \
                 | sed "s|$project_dir/||"     \
-                | tee /dev/stdout | wc -l
+                | tee /dev/stdout
               )
-              
+              count=$(echo "$report" | wc -l)
+              echo "$report"
               echo "Found $count issues"
               end_time=$(date +%s)
               echo "Ran in $((end_time - start_time))s"
